@@ -12,33 +12,15 @@ export function montarInicio(contenedor) {
             </div>
             <h1 class="inicio-titulo">Donde Quiero Estar</h1>
             <p class="inicio-artista">Quevedo</p>
-            <p class="inicio-subtitulo">3 juegos. 1 álbum. Sin registro.</p>
+            <p class="inicio-subtitulo">Test de Velocidad</p>
         </header>
 
         <main class="inicio-modos">
             <button class="modo-card" data-modo="velocidad">
                 <div class="modo-card-icono">⚡</div>
                 <div class="modo-card-info">
-                    <h2 class="modo-card-titulo">Test de Velocidad</h2>
-                    <p class="modo-card-descripcion">Adivina la canción en 10 segundos</p>
-                </div>
-                <div class="modo-card-flecha">→</div>
-            </button>
-
-            <button class="modo-card" data-modo="heardle">
-                <div class="modo-card-icono">🔊</div>
-                <div class="modo-card-info">
-                    <h2 class="modo-card-titulo">Heardle Progresivo</h2>
-                    <p class="modo-card-descripcion">Reconoce la canción por fragmentos</p>
-                </div>
-                <div class="modo-card-flecha">→</div>
-            </button>
-
-            <button class="modo-card" data-modo="wordle">
-                <div class="modo-card-icono">🎯</div>
-                <div class="modo-card-info">
-                    <h2 class="modo-card-titulo">Wordle Estadístico</h2>
-                    <p class="modo-card-descripcion">Deduce la canción con pistas</p>
+                    <h2 class="modo-card-titulo">Empezar partida</h2>
+                    <p class="modo-card-descripcion">10 canciones. 10 segundos cada una. ¿Cuántas aciertas?</p>
                 </div>
                 <div class="modo-card-flecha">→</div>
             </button>
@@ -49,17 +31,12 @@ export function montarInicio(contenedor) {
         </footer>
     `;
 
-    // Conectar los botones
     contenedor.querySelectorAll('[data-modo]').forEach(btn => {
         btn.addEventListener('click', () => {
             const modo = btn.getAttribute('data-modo');
 
             if (modo === 'velocidad') {
                 montarVelocidad(contenedor, () => montarInicio(contenedor));
-            } else if (modo === 'heardle') {
-                alert('Modo "Heardle" próximamente');
-            } else if (modo === 'wordle') {
-                alert('Modo "Wordle" próximamente');
             }
         });
     });
