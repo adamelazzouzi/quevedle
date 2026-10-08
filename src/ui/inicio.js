@@ -2,6 +2,8 @@
 // UI - PANTALLA DE INICIO
 // ============================================
 
+import { montarVelocidad } from '../modos/velocidad.js';
+
 export function montarInicio(contenedor) {
     contenedor.innerHTML = `
         <header class="inicio-header">
@@ -47,11 +49,18 @@ export function montarInicio(contenedor) {
         </footer>
     `;
 
-    // Conectar los botones (por ahora solo muestran un aviso)
+    // Conectar los botones
     contenedor.querySelectorAll('[data-modo]').forEach(btn => {
         btn.addEventListener('click', () => {
             const modo = btn.getAttribute('data-modo');
-            alert(`Modo "${modo}" próximamente`);
+
+            if (modo === 'velocidad') {
+                montarVelocidad(contenedor, () => montarInicio(contenedor));
+            } else if (modo === 'heardle') {
+                alert('Modo "Heardle" próximamente');
+            } else if (modo === 'wordle') {
+                alert('Modo "Wordle" próximamente');
+            }
         });
     });
 }

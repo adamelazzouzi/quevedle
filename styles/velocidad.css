@@ -1,0 +1,366 @@
+/* ============================================
+   MODO - TEST DE VELOCIDAD
+   ============================================ */
+
+/* Header común para todos los juegos */
+.juego-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--esp-3);
+    margin-bottom: var(--esp-6);
+    padding-bottom: var(--esp-4);
+    border-bottom: 1px solid var(--gris-850);
+}
+
+.juego-btn-volver {
+    font-size: 13px;
+    color: var(--gris-400);
+    padding: 6px 10px;
+    border-radius: var(--radio-sm);
+    transition: all var(--transicion);
+    font-weight: 600;
+}
+
+.juego-btn-volver:hover {
+    color: var(--blanco);
+    background: var(--gris-900);
+}
+
+.juego-titulo-header {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gris-300);
+}
+
+.juego-espacio {
+    min-width: 60px;
+    text-align: right;
+}
+
+/* ============================================
+   PANTALLA INICIAL
+   ============================================ */
+.velocidad-inicio {
+    text-align: center;
+    padding: var(--esp-8) 0;
+}
+
+.velocidad-inicio-icono {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: var(--esp-6);
+}
+
+.velocidad-inicio-titulo {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: var(--esp-4);
+}
+
+.velocidad-inicio-descripcion {
+    font-size: 14px;
+    color: var(--gris-400);
+    line-height: 1.6;
+    margin-bottom: var(--esp-8);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.velocidad-inicio-info {
+    display: flex;
+    justify-content: center;
+    gap: var(--esp-6);
+    margin-bottom: var(--esp-8);
+    padding: var(--esp-5);
+    background: var(--gris-950);
+    border: 1px solid var(--gris-850);
+    border-radius: var(--radio-lg);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.velocidad-inicio-info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.velocidad-inicio-info-valor {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--blanco);
+}
+
+.velocidad-inicio-info-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gris-500);
+    font-weight: 600;
+}
+
+.velocidad-btn-empezar {
+    width: 100%;
+    max-width: 320px;
+    padding: 18px 32px;
+    background: var(--blanco);
+    color: var(--negro);
+    border-radius: var(--radio-md);
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all var(--transicion);
+}
+
+.velocidad-btn-empezar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+}
+
+.velocidad-btn-empezar:active {
+    transform: translateY(0);
+}
+
+.velocidad-btn-secundario {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
+    background: transparent;
+    color: var(--gris-300);
+    border: 1px solid var(--gris-700);
+    border-radius: var(--radio-md);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all var(--transicion);
+    margin-top: var(--esp-3);
+}
+
+.velocidad-btn-secundario:hover {
+    border-color: var(--gris-500);
+    color: var(--blanco);
+}
+
+/* ============================================
+   RONDA
+   ============================================ */
+.velocidad-ronda {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-5);
+}
+
+.velocidad-puntuacion {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blanco);
+    background: var(--gris-900);
+    padding: 4px 10px;
+    border-radius: var(--radio-full);
+}
+
+/* Timer */
+.velocidad-timer {
+    display: flex;
+    align-items: center;
+    gap: var(--esp-3);
+}
+
+.velocidad-timer-barra {
+    flex: 1;
+    height: 6px;
+    background: var(--gris-850);
+    border-radius: var(--radio-full);
+    overflow: hidden;
+}
+
+.velocidad-timer-relleno {
+    height: 100%;
+    background: var(--blanco);
+    border-radius: var(--radio-full);
+    width: 100%;
+    transition: width 0.1s linear, background 0.3s ease;
+}
+
+.velocidad-timer-relleno.urgente {
+    background: var(--error);
+}
+
+.velocidad-timer-texto {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--blanco);
+    min-width: 32px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Indicador de audio */
+.velocidad-audio-indicador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--esp-3);
+    padding: var(--esp-4);
+    background: var(--gris-950);
+    border: 1px solid var(--gris-850);
+    border-radius: var(--radio-lg);
+    font-size: 14px;
+    color: var(--gris-300);
+    transition: all var(--transicion);
+}
+
+.velocidad-audio-indicador.acierto {
+    border-color: var(--exito);
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--exito);
+}
+
+.velocidad-audio-indicador.fallo {
+    border-color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+.velocidad-audio-icono {
+    font-size: 20px;
+}
+
+/* Pregunta */
+.velocidad-pregunta {
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+/* Opciones */
+.velocidad-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-2);
+}
+
+.velocidad-opcion {
+    display: flex;
+    align-items: center;
+    gap: var(--esp-4);
+    padding: var(--esp-4) var(--esp-5);
+    background: var(--gris-950);
+    border: 1px solid var(--gris-850);
+    border-radius: var(--radio-md);
+    text-align: left;
+    transition: all var(--transicion);
+    color: var(--blanco);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.velocidad-opcion:not(:disabled):hover {
+    border-color: var(--gris-600);
+    background: var(--gris-900);
+    transform: translateX(4px);
+}
+
+.velocidad-opcion:disabled {
+    cursor: default;
+}
+
+.velocidad-opcion-letra {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gris-900);
+    border-radius: var(--radio-sm);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--gris-400);
+    flex-shrink: 0;
+    transition: all var(--transicion);
+}
+
+.velocidad-opcion-texto {
+    flex: 1;
+}
+
+/* Estados de las opciones */
+.velocidad-opcion.correcta {
+    border-color: var(--exito);
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--exito);
+}
+
+.velocidad-opcion.correcta .velocidad-opcion-letra {
+    background: var(--exito);
+    color: var(--negro);
+}
+
+.velocidad-opcion.incorrecta {
+    border-color: var(--error);
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error);
+}
+
+.velocidad-opcion.incorrecta .velocidad-opcion-letra {
+    background: var(--error);
+    color: var(--negro);
+}
+
+/* ============================================
+   PANTALLA FINAL
+   ============================================ */
+.velocidad-final {
+    text-align: center;
+    padding: var(--esp-8) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--esp-5);
+}
+
+.velocidad-final-emoji {
+    font-size: 72px;
+    line-height: 1;
+}
+
+.velocidad-final-puntuacion {
+    display: flex;
+    align-items: baseline;
+    gap: var(--esp-2);
+}
+
+.velocidad-final-numero {
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+}
+
+.velocidad-final-total {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gris-500);
+}
+
+.velocidad-final-mensaje {
+    font-size: 16px;
+    color: var(--gris-300);
+    margin-bottom: var(--esp-4);
+}
+
+.velocidad-final-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-3);
+    width: 100%;
+    align-items: center;
+}
