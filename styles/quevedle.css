@@ -1,8 +1,8 @@
 /* ============================================
-   MODO - TEST DE VELOCIDAD
+   MODO - QUEVEDLE
    ============================================ */
 
-/* Header común para todos los juegos */
+/* Header común */
 .juego-header {
     display: flex;
     align-items: center;
@@ -43,25 +43,25 @@
 /* ============================================
    PANTALLA INICIAL
    ============================================ */
-.velocidad-inicio {
+.quevedle-inicio {
     text-align: center;
     padding: var(--esp-8) 0;
 }
 
-.velocidad-inicio-icono {
+.quevedle-inicio-icono {
     font-size: 72px;
     line-height: 1;
     margin-bottom: var(--esp-6);
 }
 
-.velocidad-inicio-titulo {
+.quevedle-inicio-titulo {
     font-size: 32px;
     font-weight: 900;
     letter-spacing: -1px;
     margin-bottom: var(--esp-4);
 }
 
-.velocidad-inicio-descripcion {
+.quevedle-inicio-descripcion {
     font-size: 14px;
     color: var(--gris-400);
     line-height: 1.6;
@@ -71,7 +71,7 @@
     margin-right: auto;
 }
 
-.velocidad-inicio-info {
+.quevedle-inicio-info {
     display: flex;
     justify-content: center;
     gap: var(--esp-6);
@@ -85,20 +85,20 @@
     margin-right: auto;
 }
 
-.velocidad-inicio-info-item {
+.quevedle-inicio-info-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
 }
 
-.velocidad-inicio-info-valor {
+.quevedle-inicio-info-valor {
     font-size: 22px;
     font-weight: 900;
     color: var(--blanco);
 }
 
-.velocidad-inicio-info-label {
+.quevedle-inicio-info-label {
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -106,7 +106,7 @@
     font-weight: 600;
 }
 
-.velocidad-btn-empezar {
+.quevedle-btn-empezar {
     width: 100%;
     max-width: 320px;
     padding: 18px 32px;
@@ -120,16 +120,16 @@
     transition: all var(--transicion);
 }
 
-.velocidad-btn-empezar:hover {
+.quevedle-btn-empezar:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
 }
 
-.velocidad-btn-empezar:active {
+.quevedle-btn-empezar:active {
     transform: translateY(0);
 }
 
-.velocidad-btn-secundario {
+.quevedle-btn-secundario {
     width: 100%;
     max-width: 320px;
     padding: 14px 24px;
@@ -143,7 +143,7 @@
     margin-top: var(--esp-3);
 }
 
-.velocidad-btn-secundario:hover {
+.quevedle-btn-secundario:hover {
     border-color: var(--gris-500);
     color: var(--blanco);
 }
@@ -151,13 +151,13 @@
 /* ============================================
    RONDA
    ============================================ */
-.velocidad-ronda {
+.quevedle-ronda {
     display: flex;
     flex-direction: column;
     gap: var(--esp-5);
 }
 
-.velocidad-puntuacion {
+.quevedle-puntuacion {
     font-size: 13px;
     font-weight: 700;
     color: var(--blanco);
@@ -166,14 +166,13 @@
     border-radius: var(--radio-full);
 }
 
-/* Timer */
-.velocidad-timer {
+.quevedle-timer {
     display: flex;
     align-items: center;
     gap: var(--esp-3);
 }
 
-.velocidad-timer-barra {
+.quevedle-timer-barra {
     flex: 1;
     height: 6px;
     background: var(--gris-850);
@@ -181,7 +180,7 @@
     overflow: hidden;
 }
 
-.velocidad-timer-relleno {
+.quevedle-timer-relleno {
     height: 100%;
     background: var(--blanco);
     border-radius: var(--radio-full);
@@ -189,11 +188,11 @@
     transition: width 0.1s linear, background 0.3s ease;
 }
 
-.velocidad-timer-relleno.urgente {
+.quevedle-timer-relleno.urgente {
     background: var(--error);
 }
 
-.velocidad-timer-texto {
+.quevedle-timer-texto {
     font-size: 14px;
     font-weight: 800;
     color: var(--blanco);
@@ -202,8 +201,7 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Indicador de audio */
-.velocidad-audio-indicador {
+.quevedle-audio-indicador {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -217,38 +215,36 @@
     transition: all var(--transicion);
 }
 
-.velocidad-audio-indicador.acierto {
+.quevedle-audio-indicador.acierto {
     border-color: var(--exito);
     background: rgba(16, 185, 129, 0.1);
     color: var(--exito);
 }
 
-.velocidad-audio-indicador.fallo {
+.quevedle-audio-indicador.fallo {
     border-color: var(--error);
     background: rgba(239, 68, 68, 0.1);
     color: var(--error);
 }
 
-.velocidad-audio-icono {
+.quevedle-audio-icono {
     font-size: 20px;
 }
 
-/* Pregunta */
-.velocidad-pregunta {
+.quevedle-pregunta {
     font-size: 22px;
     font-weight: 800;
     text-align: center;
     letter-spacing: -0.5px;
 }
 
-/* Opciones */
-.velocidad-opciones {
+.quevedle-opciones {
     display: flex;
     flex-direction: column;
     gap: var(--esp-2);
 }
 
-.velocidad-opcion {
+.quevedle-opcion {
     display: flex;
     align-items: center;
     gap: var(--esp-4);
@@ -263,17 +259,17 @@
     font-weight: 600;
 }
 
-.velocidad-opcion:not(:disabled):hover {
+.quevedle-opcion:not(:disabled):hover {
     border-color: var(--gris-600);
     background: var(--gris-900);
     transform: translateX(4px);
 }
 
-.velocidad-opcion:disabled {
+.quevedle-opcion:disabled {
     cursor: default;
 }
 
-.velocidad-opcion-letra {
+.quevedle-opcion-letra {
     width: 28px;
     height: 28px;
     display: flex;
@@ -288,29 +284,28 @@
     transition: all var(--transicion);
 }
 
-.velocidad-opcion-texto {
+.quevedle-opcion-texto {
     flex: 1;
 }
 
-/* Estados de las opciones */
-.velocidad-opcion.correcta {
+.quevedle-opcion.correcta {
     border-color: var(--exito);
     background: rgba(16, 185, 129, 0.15);
     color: var(--exito);
 }
 
-.velocidad-opcion.correcta .velocidad-opcion-letra {
+.quevedle-opcion.correcta .quevedle-opcion-letra {
     background: var(--exito);
     color: var(--negro);
 }
 
-.velocidad-opcion.incorrecta {
+.quevedle-opcion.incorrecta {
     border-color: var(--error);
     background: rgba(239, 68, 68, 0.15);
     color: var(--error);
 }
 
-.velocidad-opcion.incorrecta .velocidad-opcion-letra {
+.quevedle-opcion.incorrecta .quevedle-opcion-letra {
     background: var(--error);
     color: var(--negro);
 }
@@ -318,7 +313,7 @@
 /* ============================================
    PANTALLA FINAL
    ============================================ */
-.velocidad-final {
+.quevedle-final {
     text-align: center;
     padding: var(--esp-8) 0;
     display: flex;
@@ -327,37 +322,37 @@
     gap: var(--esp-5);
 }
 
-.velocidad-final-emoji {
+.quevedle-final-emoji {
     font-size: 72px;
     line-height: 1;
 }
 
-.velocidad-final-puntuacion {
+.quevedle-final-puntuacion {
     display: flex;
     align-items: baseline;
     gap: var(--esp-2);
 }
 
-.velocidad-final-numero {
+.quevedle-final-numero {
     font-size: 64px;
     font-weight: 900;
     letter-spacing: -2px;
     line-height: 1;
 }
 
-.velocidad-final-total {
+.quevedle-final-total {
     font-size: 24px;
     font-weight: 700;
     color: var(--gris-500);
 }
 
-.velocidad-final-mensaje {
+.quevedle-final-mensaje {
     font-size: 16px;
     color: var(--gris-300);
     margin-bottom: var(--esp-4);
 }
 
-.velocidad-final-acciones {
+.quevedle-final-acciones {
     display: flex;
     flex-direction: column;
     gap: var(--esp-3);
