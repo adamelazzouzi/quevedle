@@ -297,19 +297,19 @@ function mostrarFinal(contenedor, onVolver) {
 
     let mensaje, emoji;
     if (puntuacion === total) {
-        mensaje = '¡Perfecto! Eres un crack';
+        mensaje = 'Vives escuchándolo todos los días';
         emoji = '🏆';
     } else if (puntuacion >= 8) {
-        mensaje = '¡Brutal! Controlas el álbum';
+        mensaje = 'Eres fan de Quevedo';
         emoji = '🔥';
     } else if (puntuacion >= 5) {
         mensaje = 'Nada mal. Se nota que lo escuchas';
         emoji = '👍';
     } else if (puntuacion >= 3) {
-        mensaje = 'Hay que escucharlo más';
-        emoji = '🤔';
+        mensaje = 'Eres un fakefan';
+        emoji = '🤡';
     } else {
-        mensaje = '¿Que haces jugando a esto?';
+        mensaje = '¿Qué haces jugando a esto?';
         emoji = '🥀';
     }
 
