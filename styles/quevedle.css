@@ -359,3 +359,65 @@
     width: 100%;
     align-items: center;
 }
+
+/* ============================================
+   PANTALLA DE "PREPARANDO..."
+   ============================================ */
+.quevedle-preparando {
+    text-align: center;
+    padding: var(--esp-8) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--esp-5);
+}
+
+.quevedle-preparando-icono {
+    font-size: 72px;
+    line-height: 1;
+    animation: pulso 1.5s ease-in-out infinite;
+}
+
+@keyframes pulso {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.quevedle-preparando-titulo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+.quevedle-preparando-descripcion {
+    font-size: 14px;
+    color: var(--gris-400);
+    margin: 0;
+}
+
+.quevedle-preparando-barra {
+    width: 100%;
+    max-width: 320px;
+    height: 8px;
+    background: var(--gris-850);
+    border-radius: var(--radio-full);
+    overflow: hidden;
+    margin-top: var(--esp-4);
+}
+
+.quevedle-preparando-relleno {
+    height: 100%;
+    width: 0%;
+    background: var(--blanco);
+    border-radius: var(--radio-full);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quevedle-preparando-contador {
+    font-family: var(--fuente-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gris-400);
+    font-variant-numeric: tabular-nums;
+}

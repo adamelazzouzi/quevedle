@@ -4,7 +4,7 @@
 // ============================================
 
 import { album } from '../data/album.js';
-import { reproducirFragmento, pararAudio } from '../core/audio.js';
+import { precargarCanciones, reproducirAudioPrecargado, pararAudio } from '../core/audio.js';
 import { barajar, cogerAleatorios, segundoAleatorio } from '../core/utils.js';
 
 // ============================================
@@ -15,7 +15,8 @@ const CONFIG = {
     duracionFragmento: 5,
     duracionPregunta: 10,
     opcionesPorPregunta: 4,
-    margenFinal: 20
+    margenFinal: 20,
+    tamanoLotePrecarga: 3
 };
 
 // ============================================
@@ -25,6 +26,7 @@ const estado = {
     rondaActual: 0,
     puntuacion: 0,
     preguntas: [],
+    audios: {},              // mapa { track → objeto Audio precargado }
     timer: null,
     tiempoRestante: 0,
     respondiendo: false
@@ -63,6 +65,7 @@ export function montarQuevedle(contenedor, onVolver) {
     estado.rondaActual = 0;
     estado.puntuacion = 0;
     estado.preguntas = generarPreguntas();
+    estado.audios = {};
 
     contenedor.innerHTML = `
         <div class="quevedle">
@@ -105,8 +108,75 @@ export function montarQuevedle(contenedor, onVolver) {
     });
 
     document.getElementById('btnEmpezar').addEventListener('click', () => {
-        empezarPartida(contenedor, onVolver);
+        precargarYEmpezar(contenedor, onVolver);
     });
+}
+
+// ============================================
+// PRECARGAR CANCIONES Y EMPEZAR PARTIDA
+// ============================================
+async function precargarYEmpezar(contenedor, onVolver) {
+    // Sacar las canciones únicas que se van a usar en esta partida
+    const tracksUnicos = [...new Set(estado.preguntas.map(p => p.correcta.track))];
+    const cancionesAUsar = tracksUnicos.map(t => album.canciones.find(c => c.track === t));
+
+    // Mostrar pantalla de "Preparando..."
+    contenedor.innerHTML = `
+        <div class="quevedle">
+            <header class="juego-header">
+                <button class="juego-btn-volver" id="btnVolver">← Volver</button>
+                <div class="juego-titulo-header">Quevedle</div>
+                <div class="juego-espacio"></div>
+            </header>
+
+            <div class="quevedle-preparando">
+                <div class="quevedle-preparando-icono">🎧</div>
+                <h2 class="quevedle-preparando-titulo">Preparando canciones</h2>
+                <p class="quevedle-preparando-descripcion">Un momento...</p>
+
+                <div class="quevedle-preparando-barra">
+                    <div class="quevedle-preparando-relleno" id="prepRelleno"></div>
+                </div>
+
+                <div class="quevedle-preparando-contador" id="prepContador">0 / ${cancionesAUsar.length}</div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('btnVolver').addEventListener('click', () => {
+        pararAudio();
+        onVolver();
+    });
+
+    const relleno = document.getElementById('prepRelleno');
+    const contador = document.getElementById('prepContador');
+
+    // Precargar con callback de progreso
+    const resultados = await precargarCanciones(
+        cancionesAUsar,
+        CONFIG.tamanoLotePrecarga,
+        (cargadas, total) => {
+            const pct = (cargadas / total) * 100;
+            if (relleno) relleno.style.width = pct + '%';
+            if (contador) contador.textContent = `${cargadas} / ${total}`;
+        }
+    );
+
+    // Guardar audios en el estado, indexados por track
+    estado.audios = {};
+    for (const { cancion, audio } of resultados) {
+        estado.audios[cancion.track] = audio;
+    }
+
+    // Si no se cargó ninguna, avisar
+    if (resultados.length === 0) {
+        console.error('No se pudo precargar ninguna canción');
+        onVolver();
+        return;
+    }
+
+    // Empezar la partida
+    empezarPartida(contenedor, onVolver);
 }
 
 // ============================================
@@ -184,20 +254,28 @@ function mostrarRonda(contenedor, onVolver) {
         });
     });
 
-    reproducirFragmento(
-        pregunta.correcta.audioArchivo,
-        pregunta.inicioSeg,
-        CONFIG.duracionFragmento
-    ).then(() => {
-        const indicador = document.getElementById('audioIndicador');
-        if (indicador) {
-            indicador.innerHTML = `
-                <span class="quevedle-audio-icono">🔇</span>
-                <span class="quevedle-audio-texto">Fragmento terminado</span>
-            `;
-        }
-    });
+    // Inicializar barra de timer en 100% (parada)
+    const relleno = document.getElementById('timerRelleno');
+    if (relleno) relleno.style.width = '100%';
 
+    // Reproducir con el audio precargado
+    const audio = estado.audios[pregunta.correcta.track];
+
+    reproducirAudioPrecargado(audio, pregunta.inicioSeg, CONFIG.duracionFragmento)
+        .then(() => {
+            const indicador = document.getElementById('audioIndicador');
+            if (indicador) {
+                indicador.innerHTML = `
+                    <span class="quevedle-audio-icono">🔇</span>
+                    <span class="quevedle-audio-texto">Fragmento terminado</span>
+                `;
+            }
+        })
+        .catch((err) => {
+            console.error('Error al reproducir:', err);
+        });
+
+    // Arrancar el timer cuando el audio empiece de verdad
     empezarCuentaAtras(contenedor, onVolver);
 }
 
@@ -333,7 +411,8 @@ function mostrarFinal(contenedor, onVolver) {
 
     document.getElementById('btnJugarDeNuevo').addEventListener('click', () => {
         estado.preguntas = generarPreguntas();
-        empezarPartida(contenedor, onVolver);
+        estado.audios = {}; // resetear
+        precargarYEmpezar(contenedor, onVolver);
     });
 
     document.getElementById('btnVolverInicio').addEventListener('click', () => {
