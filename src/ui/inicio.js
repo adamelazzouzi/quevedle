@@ -8,7 +8,7 @@ export function montarInicio(contenedor) {
     contenedor.innerHTML = `
         <header class="inicio-header">
             <div class="inicio-portada">
-                <div class="inicio-portada-placeholder">🎵</div>
+                <img src="assets/portada.jpg" alt="Portada de DONDE QUIERO ESTAR" class="inicio-portada-img">
             </div>
             <h1 class="inicio-titulo">Quevedle</h1>
             <p class="inicio-artista">DONDE QUIERO ESTAR · Quevedo</p>
