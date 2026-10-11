@@ -4,8 +4,13 @@
 // ============================================
 
 import { album } from '../data/album.js';
-import { precargarCanciones, reproducirAudioPrecargado, pararAudio } from '../core/audio.js';
-import { barajar, cogerAleatorios, segundoAleatorio } from '../core/utils.js';
+import {
+    precargarCanciones,
+    reproducirAudioPrecargado,
+    pararAudio,
+    desbloquearAudioIOS
+} from '../core/audio.js';
+import { barajar, cogerAleatorios } from '../core/utils.js';
 
 // ============================================
 // CONFIGURACIÓN
@@ -15,7 +20,6 @@ const CONFIG = {
     duracionFragmento: 5,
     duracionPregunta: 10,
     opcionesPorPregunta: 4,
-    margenFinal: 20,
     tamanoLotePrecarga: 3
 };
 
@@ -26,7 +30,7 @@ const estado = {
     rondaActual: 0,
     puntuacion: 0,
     preguntas: [],
-    audios: {},              // mapa { track → objeto Audio precargado }
+    audios: {},
     timer: null,
     tiempoRestante: 0,
     respondiendo: false
@@ -44,16 +48,9 @@ function generarPreguntas() {
         const falsas = cogerAleatorios(otrasCanciones, CONFIG.opcionesPorPregunta - 1);
         const opciones = barajar([cancion, ...falsas]);
 
-        const inicioSeg = segundoAleatorio(
-            cancion.duracionSeg,
-            CONFIG.duracionFragmento,
-            CONFIG.margenFinal
-        );
-
         return {
             correcta: cancion,
-            opciones: opciones,
-            inicioSeg: inicioSeg
+            opciones: opciones
         };
     });
 }
@@ -108,6 +105,9 @@ export function montarQuevedle(contenedor, onVolver) {
     });
 
     document.getElementById('btnEmpezar').addEventListener('click', () => {
+        // 🔓 Desbloquear audio iOS SÍNCRONAMENTE dentro del click
+        desbloquearAudioIOS();
+        // Ahora sí, precargar y empezar
         precargarYEmpezar(contenedor, onVolver);
     });
 }
@@ -116,11 +116,9 @@ export function montarQuevedle(contenedor, onVolver) {
 // PRECARGAR CANCIONES Y EMPEZAR PARTIDA
 // ============================================
 async function precargarYEmpezar(contenedor, onVolver) {
-    // Sacar las canciones únicas que se van a usar en esta partida
     const tracksUnicos = [...new Set(estado.preguntas.map(p => p.correcta.track))];
     const cancionesAUsar = tracksUnicos.map(t => album.canciones.find(c => c.track === t));
 
-    // Mostrar pantalla de "Preparando..."
     contenedor.innerHTML = `
         <div class="quevedle">
             <header class="juego-header">
@@ -151,7 +149,6 @@ async function precargarYEmpezar(contenedor, onVolver) {
     const relleno = document.getElementById('prepRelleno');
     const contador = document.getElementById('prepContador');
 
-    // Precargar con callback de progreso
     const resultados = await precargarCanciones(
         cancionesAUsar,
         CONFIG.tamanoLotePrecarga,
@@ -162,20 +159,17 @@ async function precargarYEmpezar(contenedor, onVolver) {
         }
     );
 
-    // Guardar audios en el estado, indexados por track
     estado.audios = {};
     for (const { cancion, audio } of resultados) {
         estado.audios[cancion.track] = audio;
     }
 
-    // Si no se cargó ninguna, avisar
     if (resultados.length === 0) {
         console.error('No se pudo precargar ninguna canción');
         onVolver();
         return;
     }
 
-    // Empezar la partida
     empezarPartida(contenedor, onVolver);
 }
 
@@ -254,14 +248,12 @@ function mostrarRonda(contenedor, onVolver) {
         });
     });
 
-    // Inicializar barra de timer en 100% (parada)
     const relleno = document.getElementById('timerRelleno');
     if (relleno) relleno.style.width = '100%';
 
-    // Reproducir con el audio precargado
     const audio = estado.audios[pregunta.correcta.track];
 
-    reproducirAudioPrecargado(audio, pregunta.inicioSeg, CONFIG.duracionFragmento)
+    reproducirAudioPrecargado(audio, CONFIG.duracionFragmento)
         .then(() => {
             const indicador = document.getElementById('audioIndicador');
             if (indicador) {
@@ -275,7 +267,6 @@ function mostrarRonda(contenedor, onVolver) {
             console.error('Error al reproducir:', err);
         });
 
-    // Arrancar el timer cuando el audio empiece de verdad
     empezarCuentaAtras(contenedor, onVolver);
 }
 
@@ -410,8 +401,9 @@ function mostrarFinal(contenedor, onVolver) {
     `;
 
     document.getElementById('btnJugarDeNuevo').addEventListener('click', () => {
+        desbloquearAudioIOS();
         estado.preguntas = generarPreguntas();
-        estado.audios = {}; // resetear
+        estado.audios = {};
         precargarYEmpezar(contenedor, onVolver);
     });
 

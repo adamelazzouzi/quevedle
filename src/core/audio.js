@@ -10,54 +10,36 @@ let audioActual = null;
 let timeoutParada = null;
 
 // ============================================
-// REPRODUCIR UN FRAGMENTO (versión antigua)
+// DESBLOQUEAR AUDIO EN iOS
 //
-// Crea un Audio nuevo cada vez. Útil para pruebas
-// o casos en los que no se ha precargado.
+// iOS Safari exige que el primer play() venga de un
+// gesto directo del usuario. Cualquier await o setTimeout
+// rompe esa cadena.
 //
-// Parámetros:
-//   rutaArchivo: string con la ruta al .opus
-//   inicioSeg:   segundo donde empieza la reproducción
-//   duracionSeg: cuántos segundos reproducir
-//
-// Devuelve una promesa que se resuelve cuando el audio
-// termina de reproducirse (o cuando falla)
+// Esta función debe llamarse SÍNCRONAMENTE dentro de un
+// click/touch. Crea un AudioContext, lo resume y reproduce
+// un buffer silencioso.
 // ============================================
-export function reproducirFragmento(rutaArchivo, inicioSeg, duracionSeg) {
-    return new Promise((resolve, reject) => {
-        pararAudio();
+export function desbloquearAudioIOS() {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
 
-        const audio = new Audio(rutaArchivo);
-        audio.preload = 'auto';
-        audioActual = audio;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') {
+            ctx.resume();
+        }
 
-        audio.addEventListener('canplaythrough', () => {
-            try {
-                audio.currentTime = inicioSeg;
-                audio.play()
-                    .then(() => {
-                        timeoutParada = setTimeout(() => {
-                            audio.pause();
-                            resolve();
-                        }, duracionSeg * 1000);
-                    })
-                    .catch(err => {
-                        console.error('Error al reproducir:', err);
-                        reject(err);
-                    });
-            } catch (e) {
-                console.error('Error al configurar el audio:', e);
-                reject(e);
-            }
-        }, { once: true });
+        const buffer = ctx.createBuffer(1, 1, 22050);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
 
-        audio.addEventListener('error', (e) => {
-            console.error('Error al cargar audio:', e);
-            reject(new Error('No se pudo cargar el audio'));
-        }, { once: true });
-
-        audio.load();
-    });
+        console.log('🔓 Audio desbloqueado');
+    } catch (e) {
+        console.warn('No se pudo desbloquear el audio:', e);
+    }
 }
 
 // ============================================
@@ -77,26 +59,10 @@ export function pararAudio() {
 }
 
 // ============================================
-// PRECARGAR UN AUDIO (individual)
-// ============================================
-export function precargarAudio(rutaArchivo) {
-    const audio = new Audio(rutaArchivo);
-    audio.preload = 'auto';
-    audio.load();
-}
-
-// ============================================
 // PRECARGAR UN LOTE DE CANCIONES
 //
 // Carga N audios en lotes y devuelve un array
 // de objetos { cancion, audio } listos para usar.
-//
-// Parámetros:
-//   canciones:  array de canciones (con .audioArchivo)
-//   tamanoLote: cuántas cargar en paralelo (default: 3)
-//   onProgreso: callback(cargadas, total) para barra de progreso
-//
-// Devuelve: Promise<Array<{ cancion, audio }>>
 // ============================================
 export async function precargarCanciones(canciones, tamanoLote = 3, onProgreso = null) {
     const resultados = [];
@@ -166,17 +132,15 @@ function cargarAudio(cancion) {
 // ============================================
 // REPRODUCIR UN AUDIO YA PRECARGADO
 //
-// Usa un objeto Audio existente (ya cargado).
-// El audio arranca instantáneamente.
+// Como los fragmentos ya son de 7s y siempre
+// empiezan en 0, solo hay que hacer play()
+// y programar la parada.
 //
 // Parámetros:
 //   audio:        el objeto Audio ya precargado
-//   inicioSeg:    segundo donde empieza
 //   duracionSeg:  cuántos segundos reproducir
-//
-// Devuelve una promesa que se resuelve cuando termina
 // ============================================
-export function reproducirAudioPrecargado(audio, inicioSeg, duracionSeg) {
+export function reproducirAudioPrecargado(audio, duracionSeg) {
     return new Promise((resolve, reject) => {
         if (!audio) {
             reject(new Error('Audio no válido'));
@@ -184,25 +148,25 @@ export function reproducirAudioPrecargado(audio, inicioSeg, duracionSeg) {
         }
 
         pararAudio();
-
         audioActual = audio;
 
+        // Resetear al inicio por si acaso
         try {
-            audio.currentTime = inicioSeg;
-            audio.play()
-                .then(() => {
-                    timeoutParada = setTimeout(() => {
-                        audio.pause();
-                        resolve();
-                    }, duracionSeg * 1000);
-                })
-                .catch(err => {
-                    console.error('Error al reproducir:', err);
-                    reject(err);
-                });
+            audio.currentTime = 0;
         } catch (e) {
-            console.error('Error al configurar el audio:', e);
-            reject(e);
+            // Ignorar
         }
+
+        audio.play()
+            .then(() => {
+                timeoutParada = setTimeout(() => {
+                    audio.pause();
+                    resolve();
+                }, duracionSeg * 1000);
+            })
+            .catch(err => {
+                console.error('Error al reproducir:', err);
+                reject(err);
+            });
     });
 }
