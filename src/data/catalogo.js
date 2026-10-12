@@ -2,7 +2,7 @@
 // CATÁLOGO COMPLETO DE QUEVEDO
 //
 // Estructura de cada canción:
-//   id:            string único (ej: 'dqe-01', 'bn-01')
+//   id:            string único (ej: 'dqe-01', 'bn-01', 'eb-01')
 //   album:         string con clave del álbum ('dqe', 'bn', 'eb', 'single')
 //   titulo:        string en MAYÚSCULAS
 //   feat:          array de artistas o null
@@ -257,12 +257,109 @@ export const catalogo = {
             titulo: 'BUENAS NOCHES',
             feat: null,
             audioArchivo: 'assets/audio-fragmentos/bn-18-buenas-noches.m4a'
-        }
+        },
 
         // ============================================
         // EL BAIFO (2026)
-        // (se añadirán tras cortar los audios)
         // ============================================
+        {
+            id: 'eb-01',
+            album: 'eb',
+            titulo: 'ESTÁ EN CASA',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-01-esta-en-casa.m4a'
+        },
+        {
+            id: 'eb-02',
+            album: 'eb',
+            titulo: 'CAPRICHOSO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-02-caprichoso.m4a'
+        },
+        {
+            id: 'eb-03',
+            album: 'eb',
+            titulo: 'EL BAIFO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-03-el-baifo.m4a'
+        },
+        {
+            id: 'eb-04',
+            album: 'eb',
+            titulo: 'GÁLDAR',
+            feat: ['Tony Tun Tun'],
+            audioArchivo: 'assets/audio-fragmentos/eb-04-galdar.m4a'
+        },
+        {
+            id: 'eb-05',
+            album: 'eb',
+            titulo: 'SCANDIC',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-05-scandic.m4a'
+        },
+        {
+            id: 'eb-06',
+            album: 'eb',
+            titulo: 'AL GOLPITO',
+            feat: ['Nueva Línea'],
+            audioArchivo: 'assets/audio-fragmentos/eb-06-al-golpito.m4a'
+        },
+        {
+            id: 'eb-07',
+            album: 'eb',
+            titulo: '2010YPICO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-07-2010ypico.m4a'
+        },
+        {
+            id: 'eb-08',
+            album: 'eb',
+            titulo: 'ALGO VA A PASAR',
+            feat: ['La Pantera', 'Lucho RK', 'Juseph'],
+            audioArchivo: 'assets/audio-fragmentos/eb-08-algo-va-a-pasar.m4a'
+        },
+        {
+            id: 'eb-09',
+            album: 'eb',
+            titulo: 'HOOKAH Y CALOR',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-09-hookah-y-calor.m4a'
+        },
+        {
+            id: 'eb-10',
+            album: 'eb',
+            titulo: 'FLAKITO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-10-flakito.m4a'
+        },
+        {
+            id: 'eb-11',
+            album: 'eb',
+            titulo: 'MI BALCÓN',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-11-mi-balcon.m4a'
+        },
+        {
+            id: 'eb-12',
+            album: 'eb',
+            titulo: 'LA GRACIOSA',
+            feat: ['Elvis Crespo'],
+            audioArchivo: 'assets/audio-fragmentos/eb-12-la-graciosa.m4a'
+        },
+        {
+            id: 'eb-13',
+            album: 'eb',
+            titulo: 'NI BORRACHO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/eb-13-ni-borracho.m4a'
+        },
+        {
+            id: 'eb-14',
+            album: 'eb',
+            titulo: 'HIJO DEL VOLCÁN',
+            feat: ['Los Gofiones'],
+            audioArchivo: 'assets/audio-fragmentos/eb-14-hijo-del-volcan.m4a'
+        }
 
         // ============================================
         // SINGLES Y COLABORACIONES
