@@ -3,8 +3,10 @@
 // ============================================
 
 import { montarQuevedle } from '../modos/quevedle.js';
+import { montarQuevedex } from './quevedex.js';
 import { catalogo } from '../data/catalogo.js';
 import { albumes } from '../data/albumes.js';
+import { totalDesbloqueadas, hayDesbloqueosNuevos, numeroDesbloqueosNuevos } from '../core/quevedex.js';
 
 // ============================================
 // CONFIGURACIÓN DEL CARRUSEL
@@ -16,6 +18,9 @@ const CARRUSEL_INTERVALO = 3000; // 3 segundos
 // ============================================
 export function montarInicio(contenedor) {
     const totalCanciones = catalogo.canciones.length;
+    const desbloqueadas = totalDesbloqueadas();
+    const hayNuevos = hayDesbloqueosNuevos();
+    const numNuevos = numeroDesbloqueosNuevos();
 
     contenedor.innerHTML = `
         <header class="inicio-header">
@@ -40,6 +45,18 @@ export function montarInicio(contenedor) {
                 </div>
                 <div class="modo-card-flecha">→</div>
             </button>
+
+            <button class="modo-card modo-card-quevedex" data-modo="quevedex">
+                <div class="modo-card-icono">📖</div>
+                <div class="modo-card-info">
+                    <h2 class="modo-card-titulo">
+                        Quevedex
+                        ${hayNuevos ? `<span class="quevedex-badge-nuevo">+${numNuevos}</span>` : ''}
+                    </h2>
+                    <p class="modo-card-descripcion">Tu colección: ${desbloqueadas} / ${totalCanciones}</p>
+                </div>
+                <div class="modo-card-flecha">→</div>
+            </button>
         </main>
 
         <footer class="inicio-footer">
@@ -50,13 +67,15 @@ export function montarInicio(contenedor) {
     // Arrancar el carrusel
     iniciarCarrusel();
 
-    // Conectar botón
+    // Conectar botones
     contenedor.querySelectorAll('[data-modo]').forEach(btn => {
         btn.addEventListener('click', () => {
             const modo = btn.getAttribute('data-modo');
 
             if (modo === 'quevedle') {
                 montarQuevedle(contenedor, () => montarInicio(contenedor));
+            } else if (modo === 'quevedex') {
+                montarQuevedex(contenedor, () => montarInicio(contenedor));
             }
         });
     });
@@ -68,7 +87,6 @@ export function montarInicio(contenedor) {
 let carruselInterval = null;
 
 function iniciarCarrusel() {
-    // Limpiar interval anterior si existe
     if (carruselInterval) {
         clearInterval(carruselInterval);
         carruselInterval = null;
@@ -87,7 +105,7 @@ function iniciarCarrusel() {
 }
 
 // ============================================
-// PARAR CARRUSEL (cuando se sale del inicio)
+// PARAR CARRUSEL
 // ============================================
 export function pararCarrusel() {
     if (carruselInterval) {

@@ -11,6 +11,7 @@ import {
     desbloquearAudioIOS
 } from '../core/audio.js';
 import { barajar, cogerAleatorios } from '../core/utils.js';
+import { desbloquear, registrarPartida } from '../core/quevedex.js';
 
 // ============================================
 // CONFIGURACIÓN
@@ -327,6 +328,8 @@ function responder(idElegido, contenedor, onVolver) {
 
     if (acierto) {
         estado.puntuacion++;
+        // Desbloquear en la Quevedex (si es nueva, devuelve true)
+        desbloquear(idCorrecto);
     }
 
     document.querySelectorAll('.quevedle-opcion').forEach(btn => {
@@ -361,6 +364,9 @@ function responder(idElegido, contenedor, onVolver) {
 function mostrarFinal(contenedor, onVolver) {
     const puntuacion = estado.puntuacion;
     const total = CONFIG.totalRondas;
+
+    // Registrar la partida en la Quevedex
+    registrarPartida(puntuacion);
 
     let mensaje, emoji;
     if (puntuacion === total) {
