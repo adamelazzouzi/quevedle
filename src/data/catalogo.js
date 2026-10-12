@@ -127,12 +127,137 @@ export const catalogo = {
             titulo: 'DONDE QUIERO ESTAR',
             feat: null,
             audioArchivo: 'assets/audio-fragmentos/dqe-16-donde-quiero-estar.m4a'
-        }
+        },
 
         // ============================================
         // BUENAS NOCHES (2024)
-        // (se añadirán tras cortar los audios)
         // ============================================
+        {
+            id: 'bn-01',
+            album: 'bn',
+            titulo: 'KASSANDRA',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-01-kassandra.m4a'
+        },
+        {
+            id: 'bn-02',
+            album: 'bn',
+            titulo: 'DURO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-02-duro.m4a'
+        },
+        {
+            id: 'bn-03',
+            album: 'bn',
+            titulo: 'IGUALES',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-03-iguales.m4a'
+        },
+        {
+            id: 'bn-04',
+            album: 'bn',
+            titulo: 'GRAN VÍA',
+            feat: ['Aitana'],
+            audioArchivo: 'assets/audio-fragmentos/bn-04-gran-via.m4a'
+        },
+        {
+            id: 'bn-05',
+            album: 'bn',
+            titulo: 'CHAPIADORA.COM',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-05-chapiadora-com.m4a'
+        },
+        {
+            id: 'bn-06',
+            album: 'bn',
+            titulo: 'POR ATRÁS',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-06-por-atras.m4a'
+        },
+        {
+            id: 'bn-07',
+            album: 'bn',
+            titulo: '14 FEBREROS',
+            feat: ['Sin Nombre'],
+            audioArchivo: 'assets/audio-fragmentos/bn-07-14-febreros.m4a'
+        },
+        {
+            id: 'bn-08',
+            album: 'bn',
+            titulo: 'LA 125',
+            feat: ['Yung Beef'],
+            audioArchivo: 'assets/audio-fragmentos/bn-08-la-125.m4a'
+        },
+        {
+            id: 'bn-09',
+            album: 'bn',
+            titulo: 'HALO',
+            feat: ['La Pantera'],
+            audioArchivo: 'assets/audio-fragmentos/bn-09-halo.m4a'
+        },
+        {
+            id: 'bn-10',
+            album: 'bn',
+            titulo: 'MR. MOONDIAL',
+            feat: ['Pitbull'],
+            audioArchivo: 'assets/audio-fragmentos/bn-10-mr-moondial.m4a'
+        },
+        {
+            id: 'bn-11',
+            album: 'bn',
+            titulo: 'QUÉ ASCO DE TODO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-11-que-asco-de-todo.m4a'
+        },
+        {
+            id: 'bn-12',
+            album: 'bn',
+            titulo: 'NOEMÚ',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-12-noemu.m4a'
+        },
+        {
+            id: 'bn-13',
+            album: 'bn',
+            titulo: 'SHIBATTO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-13-shibatto.m4a'
+        },
+        {
+            id: 'bn-14',
+            album: 'bn',
+            titulo: 'LOS DÍAS CONTADOS',
+            feat: ['Rels B'],
+            audioArchivo: 'assets/audio-fragmentos/bn-14-los-dias-contados.m4a'
+        },
+        {
+            id: 'bn-15',
+            album: 'bn',
+            titulo: 'EL ESTRIBILLO',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-15-el-estribillo.m4a'
+        },
+        {
+            id: 'bn-16',
+            album: 'bn',
+            titulo: 'AMANECIÓ',
+            feat: ['De La Rose', 'De La Ghetto'],
+            audioArchivo: 'assets/audio-fragmentos/bn-16-amanecio.m4a'
+        },
+        {
+            id: 'bn-17',
+            album: 'bn',
+            titulo: 'TE FALLÉ',
+            feat: ['Sech'],
+            audioArchivo: 'assets/audio-fragmentos/bn-17-te-falle.m4a'
+        },
+        {
+            id: 'bn-18',
+            album: 'bn',
+            titulo: 'BUENAS NOCHES',
+            feat: null,
+            audioArchivo: 'assets/audio-fragmentos/bn-18-buenas-noches.m4a'
+        }
 
         // ============================================
         // EL BAIFO (2026)
