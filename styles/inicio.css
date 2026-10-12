@@ -8,6 +8,9 @@
     padding-top: var(--esp-6);
 }
 
+/* ============================================
+   PORTADA / CARRUSEL
+   ============================================ */
 .inicio-portada {
     width: 160px;
     height: 160px;
@@ -17,13 +20,30 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.inicio-portada-img {
+.inicio-carrusel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.inicio-carrusel img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
 }
 
+.inicio-carrusel img.activa {
+    opacity: 1;
+}
+
+/* ============================================
+   TEXTOS
+   ============================================ */
 .inicio-titulo {
     font-size: 32px;
     font-weight: 900;
@@ -48,7 +68,9 @@
     color: var(--gris-500);
 }
 
-/* Modos */
+/* ============================================
+   MODOS
+   ============================================ */
 .inicio-modos {
     display: flex;
     flex-direction: column;
@@ -116,7 +138,9 @@
     color: var(--blanco);
 }
 
-/* Footer */
+/* ============================================
+   FOOTER
+   ============================================ */
 .inicio-footer {
     margin-top: auto;
     padding-top: var(--esp-6);

@@ -3,7 +3,7 @@
 // Adivina la canción en 10 segundos
 // ============================================
 
-import { album } from '../data/album.js';
+import { catalogo } from '../data/catalogo.js';
 import {
     precargarCanciones,
     reproducirAudioPrecargado,
@@ -40,11 +40,11 @@ const estado = {
 // GENERAR PREGUNTAS
 // ============================================
 function generarPreguntas() {
-    const canciones = album.canciones;
+    const canciones = catalogo.canciones;
     const cancionesElegidas = cogerAleatorios(canciones, CONFIG.totalRondas);
 
     return cancionesElegidas.map(cancion => {
-        const otrasCanciones = canciones.filter(c => c.track !== cancion.track);
+        const otrasCanciones = canciones.filter(c => c.id !== cancion.id);
         const falsas = cogerAleatorios(otrasCanciones, CONFIG.opcionesPorPregunta - 1);
         const opciones = barajar([cancion, ...falsas]);
 
@@ -76,7 +76,7 @@ export function montarQuevedle(contenedor, onVolver) {
                 <div class="quevedle-inicio-icono">🎧</div>
                 <h1 class="quevedle-inicio-titulo">Quevedle</h1>
                 <p class="quevedle-inicio-descripcion">
-                    Escucharás 5 segundos de una canción aleatoria del álbum.<br>
+                    Escucharás 5 segundos de una canción aleatoria de Quevedo.<br>
                     Tienes 10 segundos para adivinar cuál es.
                 </p>
                 <div class="quevedle-inicio-info">
@@ -105,9 +105,7 @@ export function montarQuevedle(contenedor, onVolver) {
     });
 
     document.getElementById('btnEmpezar').addEventListener('click', () => {
-        // 🔓 Desbloquear audio iOS SÍNCRONAMENTE dentro del click
         desbloquearAudioIOS();
-        // Ahora sí, precargar y empezar
         precargarYEmpezar(contenedor, onVolver);
     });
 }
@@ -116,8 +114,8 @@ export function montarQuevedle(contenedor, onVolver) {
 // PRECARGAR CANCIONES Y EMPEZAR PARTIDA
 // ============================================
 async function precargarYEmpezar(contenedor, onVolver) {
-    const tracksUnicos = [...new Set(estado.preguntas.map(p => p.correcta.track))];
-    const cancionesAUsar = tracksUnicos.map(t => album.canciones.find(c => c.track === t));
+    const idsUnicos = [...new Set(estado.preguntas.map(p => p.correcta.id))];
+    const cancionesAUsar = idsUnicos.map(id => catalogo.canciones.find(c => c.id === id));
 
     contenedor.innerHTML = `
         <div class="quevedle">
@@ -161,7 +159,7 @@ async function precargarYEmpezar(contenedor, onVolver) {
 
     estado.audios = {};
     for (const { cancion, audio } of resultados) {
-        estado.audios[cancion.track] = audio;
+        estado.audios[cancion.id] = audio;
     }
 
     if (resultados.length === 0) {
@@ -197,7 +195,7 @@ function mostrarRonda(contenedor, onVolver) {
     estado.tiempoRestante = CONFIG.duracionPregunta;
 
     const opcionesHTML = pregunta.opciones.map((opcion, i) => `
-        <button class="quevedle-opcion" data-track="${opcion.track}">
+        <button class="quevedle-opcion" data-id="${opcion.id}">
             <span class="quevedle-opcion-letra">${String.fromCharCode(65 + i)}</span>
             <span class="quevedle-opcion-texto">${opcion.titulo}</span>
         </button>
@@ -243,15 +241,15 @@ function mostrarRonda(contenedor, onVolver) {
 
     document.querySelectorAll('.quevedle-opcion').forEach(btn => {
         btn.addEventListener('click', () => {
-            const trackElegido = parseInt(btn.getAttribute('data-track'));
-            responder(trackElegido, contenedor, onVolver);
+            const idElegido = btn.getAttribute('data-id');
+            responder(idElegido, contenedor, onVolver);
         });
     });
 
     const relleno = document.getElementById('timerRelleno');
     if (relleno) relleno.style.width = '100%';
 
-    const audio = estado.audios[pregunta.correcta.track];
+    const audio = estado.audios[pregunta.correcta.id];
 
     reproducirAudioPrecargado(audio, CONFIG.duracionFragmento)
         .then(() => {
@@ -316,7 +314,7 @@ function actualizarTimer() {
 // ============================================
 // RESPONDER
 // ============================================
-function responder(trackElegido, contenedor, onVolver) {
+function responder(idElegido, contenedor, onVolver) {
     if (estado.respondiendo) return;
     estado.respondiendo = true;
 
@@ -324,20 +322,20 @@ function responder(trackElegido, contenedor, onVolver) {
     pararAudio();
 
     const pregunta = estado.preguntas[estado.rondaActual];
-    const correcta = pregunta.correcta.track;
-    const acierto = trackElegido === correcta;
+    const idCorrecto = pregunta.correcta.id;
+    const acierto = idElegido === idCorrecto;
 
     if (acierto) {
         estado.puntuacion++;
     }
 
     document.querySelectorAll('.quevedle-opcion').forEach(btn => {
-        const track = parseInt(btn.getAttribute('data-track'));
+        const id = btn.getAttribute('data-id');
         btn.disabled = true;
 
-        if (track === correcta) {
+        if (id === idCorrecto) {
             btn.classList.add('correcta');
-        } else if (track === trackElegido) {
+        } else if (id === idElegido) {
             btn.classList.add('incorrecta');
         }
     });
@@ -347,7 +345,7 @@ function responder(trackElegido, contenedor, onVolver) {
         indicador.innerHTML = acierto
             ? '<span class="quevedle-audio-icono">✅</span><span class="quevedle-audio-texto">¡Correcto!</span>'
             : '<span class="quevedle-audio-icono">❌</span><span class="quevedle-audio-texto">' +
-              (trackElegido === null ? 'Sin respuesta' : 'Incorrecto') + '</span>';
+              (idElegido === null ? 'Sin respuesta' : 'Incorrecto') + '</span>';
         indicador.classList.add(acierto ? 'acierto' : 'fallo');
     }
 

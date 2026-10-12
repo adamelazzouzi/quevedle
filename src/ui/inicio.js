@@ -3,16 +3,32 @@
 // ============================================
 
 import { montarQuevedle } from '../modos/quevedle.js';
+import { catalogo } from '../data/catalogo.js';
+import { albumes } from '../data/albumes.js';
 
+// ============================================
+// CONFIGURACIÓN DEL CARRUSEL
+// ============================================
+const CARRUSEL_INTERVALO = 3000; // 3 segundos
+
+// ============================================
+// MONTAR INICIO
+// ============================================
 export function montarInicio(contenedor) {
+    const totalCanciones = catalogo.canciones.length;
+
     contenedor.innerHTML = `
         <header class="inicio-header">
             <div class="inicio-portada">
-                <img src="assets/portada.jpg" alt="Portada de DONDE QUIERO ESTAR" class="inicio-portada-img">
+                <div class="inicio-carrusel" id="carrusel">
+                    <img src="${albumes.dqe.portada}" alt="Portada DONDE QUIERO ESTAR" class="activa">
+                    <img src="${albumes.bn.portada}" alt="Portada BUENAS NOCHES">
+                    <img src="${albumes.eb.portada}" alt="Portada EL BAIFO">
+                </div>
             </div>
             <h1 class="inicio-titulo">Quevedle</h1>
-            <p class="inicio-artista">DONDE QUIERO ESTAR · Quevedo</p>
-            <p class="inicio-subtitulo">10 canciones. 10 segundos cada una.</p>
+            <p class="inicio-artista">Quevedo</p>
+            <p class="inicio-subtitulo">${totalCanciones} canciones. 10 rondas. Sin registro.</p>
         </header>
 
         <main class="inicio-modos">
@@ -31,6 +47,10 @@ export function montarInicio(contenedor) {
         </footer>
     `;
 
+    // Arrancar el carrusel
+    iniciarCarrusel();
+
+    // Conectar botón
     contenedor.querySelectorAll('[data-modo]').forEach(btn => {
         btn.addEventListener('click', () => {
             const modo = btn.getAttribute('data-modo');
@@ -40,4 +60,38 @@ export function montarInicio(contenedor) {
             }
         });
     });
+}
+
+// ============================================
+// CARRUSEL DE PORTADAS
+// ============================================
+let carruselInterval = null;
+
+function iniciarCarrusel() {
+    // Limpiar interval anterior si existe
+    if (carruselInterval) {
+        clearInterval(carruselInterval);
+        carruselInterval = null;
+    }
+
+    const imagenes = document.querySelectorAll('#carrusel img');
+    if (imagenes.length === 0) return;
+
+    let indiceActual = 0;
+
+    carruselInterval = setInterval(() => {
+        imagenes[indiceActual].classList.remove('activa');
+        indiceActual = (indiceActual + 1) % imagenes.length;
+        imagenes[indiceActual].classList.add('activa');
+    }, CARRUSEL_INTERVALO);
+}
+
+// ============================================
+// PARAR CARRUSEL (cuando se sale del inicio)
+// ============================================
+export function pararCarrusel() {
+    if (carruselInterval) {
+        clearInterval(carruselInterval);
+        carruselInterval = null;
+    }
 }
