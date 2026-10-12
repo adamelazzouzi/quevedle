@@ -1,6 +1,6 @@
 # Quevedle
 
-Juego online para adivinar las 16 canciones del álbum **DONDE QUIERO ESTAR** de Quevedo.
+Juego online para adivinar las canciones de Quevedo.
 
 10 canciones aleatorias. 10 segundos por ronda. Sin registro.
 
